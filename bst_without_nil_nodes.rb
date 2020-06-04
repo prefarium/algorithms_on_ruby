@@ -19,28 +19,20 @@ class BinaryTree
   end
 
 
-  def show_in_order(node     = @tree,
-                    elements = Array.new(@numbers_stored),
-                    index    = 0)
+  def show_in_order(node   = @tree,
+                    result = Array.new(@numbers_stored),
+                    i      = 0)
 
-    if node.left
-      arr      = show_in_order(node.left, elements, index)
-      elements = arr[0]
-      index    = arr[1]
-    end
+    arr = node.left ? show_in_order(node.left, result, i) : [result, i]
 
     node.counter.times do
-      elements[index] = node.value
-      index += 1
+      arr[0][arr[1]] = node.value
+      arr[1] += 1
     end
 
-    if node.right
-      arr      = show_in_order(node.right, elements, index)
-      elements = arr[0]
-      index    = arr[1]
-    end
+    arr = show_in_order(node.right, arr[0], arr[1]) if node.right
 
-    [elements, index]
+    arr[1] == @numbers_stored && arr[0].class == Array ? arr[0] : arr
   end
 
 
