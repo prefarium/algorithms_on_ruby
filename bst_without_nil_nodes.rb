@@ -26,14 +26,21 @@ class BinaryTree
   end
 
 
-  def in_order_traversal(node, result, i)
-    i = in_order_traversal(node.left, result, i) if node.left
+  def clear
+    remove_descendants(@tree)
 
-    node.counter.times { result[i] = node.value; i += 1 }
+    @tree           = Node.new
+    @numbers_stored = 0
+    @sum            = 0
+    @min_number     = nil
+    @max_number     = nil
+  end
 
-    i = in_order_traversal(node.right, result, i) if node.right
 
-    i
+  def copy
+    clone = BinaryTree.new
+    from_root_to_leaves(@tree, clone)
+    clone
   end
 
 
@@ -69,5 +76,31 @@ class BinaryTree
         node.right.nil? ? node.right = Node.new(num) : add_node(node.right, num)
       end
     end
+  end
+
+
+  def in_order_traversal(node, result, i)
+    i = in_order_traversal(node.left, result, i) if node.left
+
+    node.counter.times { result[i] = node.value; i += 1 }
+
+    i = in_order_traversal(node.right, result, i) if node.right
+
+    i
+  end
+
+
+  def remove_descendants(node)
+    remove_descendants(node.left)  if node.left
+    remove_descendants(node.right) if node.right
+    node.left  = nil
+    node.right = nil
+  end
+
+
+  def from_root_to_leaves(node, clone)
+    node.counter.times { clone.store_number(node.value) }
+    from_root_to_leaves(node.left, clone)  if node.left
+    from_root_to_leaves(node.right, clone) if node.right
   end
 end
