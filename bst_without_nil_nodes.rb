@@ -19,20 +19,21 @@ class BinaryTree
   end
 
 
-  def show_in_order(node   = @tree,
-                    result = Array.new(@numbers_stored),
-                    i      = 0)
+  def show_in_order
+    result = Array.new(@numbers_stored)
+    in_order_traversal(@tree, result, 0)
+    result
+  end
 
-    arr = node.left ? show_in_order(node.left, result, i) : [result, i]
 
-    node.counter.times do
-      arr[0][arr[1]] = node.value
-      arr[1] += 1
-    end
+  def in_order_traversal(node, result, i)
+    i = in_order_traversal(node.left, result, i) if node.left
 
-    arr = show_in_order(node.right, arr[0], arr[1]) if node.right
+    node.counter.times { result[i] = node.value; i += 1 }
 
-    arr[1] == @numbers_stored && arr[0].class == Array ? arr[0] : arr
+    i = in_order_traversal(node.right, result, i) if node.right
+
+    i
   end
 
 
