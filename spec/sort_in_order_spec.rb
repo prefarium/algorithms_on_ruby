@@ -1,5 +1,5 @@
 require 'rspec'
-require_relative '../bst_without_nil_nodes.rb'
+require_relative '../binary_tree_unique.rb'
 
 describe 'show_in_order' do
   before(:each) do

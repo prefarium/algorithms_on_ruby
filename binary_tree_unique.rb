@@ -1,4 +1,4 @@
-class BinaryTree
+class BinaryTreeUnique
   attr_reader :numbers_stored, :sum, :min_number, :max_number
 
   def initialize

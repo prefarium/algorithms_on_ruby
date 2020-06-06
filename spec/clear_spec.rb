@@ -1,5 +1,5 @@
 require 'rspec'
-require_relative '../bst_without_nil_nodes.rb'
+require_relative '../binary_tree_unique.rb'
 
 describe 'clear' do
   it 'should return an empty array' do
