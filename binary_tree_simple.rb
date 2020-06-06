@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Node
   attr_accessor :value, :left, :right, :tree_size
 
@@ -24,12 +26,12 @@ class Node
 
 
   def store_array(arr)
-    arr.each { |v| self.store_number(v)}
+    arr.each { |v| self.store_number(v) }
   end
 
 
   def show_in_order
-    return [] if @value == nil
+    return [] if @value.nil?
 
     result = Array.new(@tree_size)
     in_order_traversal(self, result, 0)
@@ -48,13 +50,13 @@ class Node
 
   def copy
     clone = Node.new
-    from_root_to_leaves(self, clone) if @value != nil
+    from_root_to_leaves(self, clone) if !@value.nil?
     clone
   end
 
 
   def contains?(num)
-    false if @value == nil
+    false if @value.nil?
 
     case num <=> @value
     when -1
@@ -72,12 +74,15 @@ class Node
 
     if node_to_delete == false
       puts 'there is no such number in db'
-    elsif node_to_delete.count_children < 2
-      node_to_delete.delete_node_with_0_or_1_child
+
     else
-      donor = node_to_delete.left.max_node
-      node_to_delete.value = donor.value
-      donor.delete_node_with_0_or_1_child
+      if node_to_delete.count_children == 2
+        donor                = node_to_delete.left.max_node
+        node_to_delete.value = donor.value
+        node_to_delete       = donor
+      end
+
+      node_to_delete.delete_node_with_0_or_1_child
     end
   end
 
@@ -107,8 +112,7 @@ class Node
   protected
 
   def removing_search(num)
-
-    result = if @value == nil
+    result = if @value.nil?
                false
              else
                case num <=> @value
@@ -120,27 +124,22 @@ class Node
                  @right.removing_search(num)
                end
              end
+
     @tree_size -= 1 if result != false
     result
   end
 
 
   def count_children
-    [@left, @right].count { |x| x.value != nil }
+    [@left, @right].count { |x| !x.value.nil? }
   end
 
 
   def delete_node_with_0_or_1_child
-    if @left.value
-      @value = @left.value
-      @right = @left.right
-      @left  = @left.left
-
-    else
-      @value = @right.value
-      @left  = @right.left
-      @right = @right.right
-    end
+    child  = @left.value ? @left : @right
+    @value = child.value
+    @right = child.right
+    @left  = child.left
   end
 
 

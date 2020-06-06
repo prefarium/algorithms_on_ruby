@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rspec'
 require_relative '../binary_tree_unique.rb'
 
 describe 'copy' do
   it 'should return a precisely same array' do
-    bst  = BinaryTree.new
+    bst   = BinaryTree.new
     array = Array.new(10_000) { rand(-500_000..500_000) }
 
     array.each { |num| bst.store_number(num) }

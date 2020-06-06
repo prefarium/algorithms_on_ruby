@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BinaryTreeUnique
   attr_reader :numbers_stored, :sum, :min_number, :max_number
 
@@ -20,7 +22,7 @@ class BinaryTreeUnique
 
 
   def store_array(arr)
-    arr.each { |v| self.store_number(v)}
+    arr.each { |v| self.store_number(v) }
   end
 
 
@@ -89,14 +91,14 @@ class BinaryTreeUnique
   end
 
 
-  def in_order_traversal(node, result, i)
-    i = in_order_traversal(node.left, result, i) if node.left
+  def in_order_traversal(node, result, index)
+    index = in_order_traversal(node.left, result, index) if node.left
 
-    node.counter.times { result[i] = node.value; i += 1 }
+    node.counter.times { result[index] = node.value; index += 1 }
 
-    i = in_order_traversal(node.right, result, i) if node.right
+    index = in_order_traversal(node.right, result, index) if node.right
 
-    i
+    index
   end
 
 
