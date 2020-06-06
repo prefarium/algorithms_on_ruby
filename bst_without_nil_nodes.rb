@@ -19,20 +19,33 @@ class BinaryTree
   end
 
 
-  def show_in_order(node   = @tree,
-                    result = Array.new(@numbers_stored),
-                    i      = 0)
+  def show_in_order
+    result = Array.new(@numbers_stored)
+    in_order_traversal(@tree, result, 0)
+    result
+  end
 
-    arr = node.left ? show_in_order(node.left, result, i) : [result, i]
 
-    node.counter.times do
-      arr[0][arr[1]] = node.value
-      arr[1] += 1
-    end
+  def clear
+    remove_descendants(@tree)
 
-    arr = show_in_order(node.right, arr[0], arr[1]) if node.right
+    @tree           = Node.new
+    @numbers_stored = 0
+    @sum            = 0
+    @min_number     = nil
+    @max_number     = nil
+  end
 
-    arr[1] == @numbers_stored && arr[0].class == Array ? arr[0] : arr
+
+  def copy
+    clone = BinaryTree.new
+    from_root_to_leaves(@tree, clone)
+    clone
+  end
+
+
+  def contains?(num)
+    search_node(@tree, num)
   end
 
 
@@ -68,5 +81,44 @@ class BinaryTree
         node.right.nil? ? node.right = Node.new(num) : add_node(node.right, num)
       end
     end
+  end
+
+
+  def in_order_traversal(node, result, i)
+    i = in_order_traversal(node.left, result, i) if node.left
+
+    node.counter.times { result[i] = node.value; i += 1 }
+
+    i = in_order_traversal(node.right, result, i) if node.right
+
+    i
+  end
+
+
+  def remove_descendants(node)
+    remove_descendants(node.left)  if node.left
+    remove_descendants(node.right) if node.right
+    node.left  = nil
+    node.right = nil
+  end
+
+
+  def from_root_to_leaves(node, clone)
+    node.counter.times { clone.store_number(node.value) }
+    from_root_to_leaves(node.left, clone)  if node.left
+    from_root_to_leaves(node.right, clone) if node.right
+  end
+
+
+  def search_node(node, number)
+    case number <=> node.value
+    when -1
+      return search_node(node.left, number) if node.left
+    when 0
+      return true
+    when 1
+      return search_node(node.right, number) if node.right
+    end
+    false
   end
 end
