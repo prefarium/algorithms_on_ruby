@@ -44,6 +44,11 @@ class BinaryTree
   end
 
 
+  def contains?(num)
+    search_node(@tree, num)
+  end
+
+
   private
 
   class Node
@@ -102,5 +107,18 @@ class BinaryTree
     node.counter.times { clone.store_number(node.value) }
     from_root_to_leaves(node.left, clone)  if node.left
     from_root_to_leaves(node.right, clone) if node.right
+  end
+
+
+  def search_node(node, number)
+    case number <=> node.value
+    when -1
+      return search_node(node.left, number) if node.left
+    when 0
+      return true
+    when 1
+      return search_node(node.right, number) if node.right
+    end
+    false
   end
 end
