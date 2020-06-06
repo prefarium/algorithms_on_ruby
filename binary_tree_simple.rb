@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 class Node
-  attr_accessor :value, :left, :right, :tree_size
+  protected
+  attr_accessor :left, :right
+  attr_writer :value, :tree_size
+
+  public
+  attr_reader :value, :tree_size
 
   def initialize
     @tree_size = 0
