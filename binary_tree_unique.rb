@@ -1,4 +1,6 @@
-class BinaryTree
+# frozen_string_literal: true
+
+class BinaryTreeUnique
   attr_reader :numbers_stored, :sum, :min_number, :max_number
 
   def initialize
@@ -16,6 +18,11 @@ class BinaryTree
     @sum            += num
     @min_number      = @min_number.nil? ? num : [@min_number, num].min
     @max_number      = @max_number.nil? ? num : [@max_number, num].max
+  end
+
+
+  def store_array(arr)
+    arr.each { |v| self.store_number(v) }
   end
 
 
@@ -84,14 +91,14 @@ class BinaryTree
   end
 
 
-  def in_order_traversal(node, result, i)
-    i = in_order_traversal(node.left, result, i) if node.left
+  def in_order_traversal(node, result, index)
+    index = in_order_traversal(node.left, result, index) if node.left
 
-    node.counter.times { result[i] = node.value; i += 1 }
+    node.counter.times { result[index] = node.value; index += 1 }
 
-    i = in_order_traversal(node.right, result, i) if node.right
+    index = in_order_traversal(node.right, result, index) if node.right
 
-    i
+    index
   end
 
 

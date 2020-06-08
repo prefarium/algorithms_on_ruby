@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'rspec'
-require_relative '../bst_without_nil_nodes.rb'
+require_relative '../binary_tree_unique.rb'
 
 describe 'show_in_order' do
   before(:each) do
@@ -12,8 +14,8 @@ describe 'show_in_order' do
   end
 
   it 'should pass simple tests' do
-    [11065, 882, -6619, -5554, 16, 0].each { |num| @bst.store_number(num) }
-    expect(@bst.show_in_order).to eq [ -6619, -5554, 0, 16, 882, 11065 ]
+    [11_065, 882, -6619, -5554, 16, 0].each { |num| @bst.store_number(num) }
+    expect(@bst.show_in_order).to eq [-6619, -5554, 0, 16, 882, 11_065]
   end
 
   it 'should pass random tests' do
