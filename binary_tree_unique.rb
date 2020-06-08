@@ -45,7 +45,7 @@ class BinaryTreeUnique
 
 
   def copy
-    clone = BinaryTree.new
+    clone = BinaryTreeUnique.new
     from_root_to_leaves(@tree, clone)
     clone
   end

@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 class Node
-  attr_accessor :value, :left, :right, :tree_size
+  protected
+  attr_accessor :left, :right, :value
+  attr_writer   :tree_size
+
+  public
+  attr_reader :tree_size
 
   def initialize
     @tree_size = 0
@@ -73,8 +78,7 @@ class Node
     node_to_delete = removing_search(num)
 
     if node_to_delete == false
-      puts 'there is no such number in db'
-
+      false
     else
       if node_to_delete.count_children == 2
         donor                = node_to_delete.left.max_node
@@ -83,6 +87,7 @@ class Node
       end
 
       node_to_delete.delete_node_with_0_or_1_child
+      true
     end
   end
 
