@@ -2,16 +2,20 @@
 
 class Node
   protected
+
   attr_accessor :left, :right, :value
   attr_writer   :tree_size
 
   public
+
   attr_reader :tree_size
 
   def initialize
     @tree_size = 0
+    @left      = nil
+    @right     = nil
+    @value     = nil
   end
-
 
   def store_number(num)
     @tree_size += 1
@@ -29,11 +33,9 @@ class Node
     end
   end
 
-
   def store_array(arr)
-    arr.each { |v| self.store_number(v) }
+    arr.each { |v| store_number(v) }
   end
-
 
   def show_in_order
     return [] if @value.nil?
@@ -43,22 +45,18 @@ class Node
     result
   end
 
-
   def clear
     @left.clear  if @left.value
     @right.clear if @right.value
 
-    @left, @right, @value = nil
-    @tree_size            = 0
+    initialize
   end
-
 
   def copy
     clone = Node.new
-    from_root_to_leaves(self, clone) if !@value.nil?
+    from_root_to_leaves(self, clone) unless @value.nil?
     clone
   end
-
 
   def contains?(num)
     false if @value.nil?
@@ -73,12 +71,12 @@ class Node
     end
   end
 
-
   def remove_node(num)
     node_to_delete = removing_search(num)
 
     if node_to_delete == false
       false
+
     else
       if node_to_delete.count_children == 2
         donor                = node_to_delete.left.max_node
@@ -91,28 +89,25 @@ class Node
     end
   end
 
-
   private
 
-  def in_order_traversal(node, result, i)
-    i = in_order_traversal(node.left, result, i) if node.left.value
+  def in_order_traversal(node, result, idx)
+    idx = in_order_traversal(node.left, result, idx) if node.left.value
 
-    result[i] = node.value
-    i += 1
+    result[idx] = node.value
+    idx += 1
 
-    i = in_order_traversal(node.right, result, i) if node.right.value
+    idx = in_order_traversal(node.right, result, idx) if node.right.value
 
-    i
+    idx
   end
-
 
   def from_root_to_leaves(node, clone)
     clone.store_number(node.value)
 
-    from_root_to_leaves(node.left, clone)  if node.left.value
+    from_root_to_leaves(node.left,  clone) if node.left.value
     from_root_to_leaves(node.right, clone) if node.right.value
   end
-
 
   protected
 
@@ -134,11 +129,9 @@ class Node
     result
   end
 
-
   def count_children
     [@left, @right].count { |x| !x.value.nil? }
   end
-
 
   def delete_node_with_0_or_1_child
     child  = @left.value ? @left : @right
@@ -146,7 +139,6 @@ class Node
     @right = child.right
     @left  = child.left
   end
-
 
   def max_node
     @right.value ? @right.max_node : self
