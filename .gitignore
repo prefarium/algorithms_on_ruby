@@ -1,3 +1,6 @@
+# Bundler
+/.bundle
+
+# Temp files
 starter.rb
 temp.rb
-.rubocop.yml

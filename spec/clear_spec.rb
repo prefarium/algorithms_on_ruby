@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec'
-require_relative '../binary_tree_unique.rb'
+require_relative '../binary_tree_unique'
 
 describe 'clear' do
   it 'should return an empty array' do

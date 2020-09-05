@@ -11,7 +11,6 @@ class BinaryTreeUnique
     @max_number     = nil
   end
 
-
   def store_number(num)
     add_node(@tree, num)
     @numbers_stored += 1
@@ -20,11 +19,9 @@ class BinaryTreeUnique
     @max_number      = @max_number.nil? ? num : [@max_number, num].max
   end
 
-
   def store_array(arr)
-    arr.each { |v| self.store_number(v) }
+    arr.each { |v| store_number(v) }
   end
-
 
   def show_in_order
     result = Array.new(@numbers_stored)
@@ -32,17 +29,10 @@ class BinaryTreeUnique
     result
   end
 
-
   def clear
     remove_descendants(@tree)
-
-    @tree           = Node.new
-    @numbers_stored = 0
-    @sum            = 0
-    @min_number     = nil
-    @max_number     = nil
+    initialize
   end
-
 
   def copy
     clone = BinaryTreeUnique.new
@@ -50,11 +40,9 @@ class BinaryTreeUnique
     clone
   end
 
-
   def contains?(num)
     search_node(@tree, num)
   end
-
 
   private
 
@@ -69,7 +57,6 @@ class BinaryTreeUnique
     end
   end
 
-
   def add_node(node, num)
     if node.value.nil?
       node.value    = num
@@ -77,19 +64,15 @@ class BinaryTreeUnique
 
     else
       case num <=> node.value
-
       when -1
         node.left.nil? ? node.left = Node.new(num) : add_node(node.left, num)
-
       when 0
         node.counter += 1
-
       when 1
         node.right.nil? ? node.right = Node.new(num) : add_node(node.right, num)
       end
     end
   end
-
 
   def in_order_traversal(node, result, index)
     index = in_order_traversal(node.left, result, index) if node.left
@@ -101,7 +84,6 @@ class BinaryTreeUnique
     index
   end
 
-
   def remove_descendants(node)
     remove_descendants(node.left)  if node.left
     remove_descendants(node.right) if node.right
@@ -109,13 +91,11 @@ class BinaryTreeUnique
     node.right = nil
   end
 
-
   def from_root_to_leaves(node, clone)
     node.counter.times { clone.store_number(node.value) }
     from_root_to_leaves(node.left, clone)  if node.left
     from_root_to_leaves(node.right, clone) if node.right
   end
-
 
   def search_node(node, number)
     case number <=> node.value
